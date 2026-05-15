@@ -14,11 +14,58 @@ References (HDD Guru / forums):
 from __future__ import annotations
 
 import io
+import os
 import re
 import zipfile
 from typing import Optional
 
 import streamlit as st
+
+
+# ============================================================
+# Access control
+# ============================================================
+# Default password. For deployments on Streamlit Community Cloud or any
+# multi-user setting, set the password via st.secrets["password"] or the
+# APP_PASSWORD environment variable so the value is not committed to the repo.
+APP_PASSWORD_DEFAULT = "11390"
+
+
+def _expected_password() -> str:
+    """Resolve the expected password: st.secrets > APP_PASSWORD env > default constant."""
+    try:
+        if "password" in st.secrets:
+            return st.secrets["password"]
+    except Exception:
+        pass
+    return os.environ.get("APP_PASSWORD", APP_PASSWORD_DEFAULT)
+
+
+def _on_password_submit():
+    if st.session_state.get("pw_input") == _expected_password():
+        st.session_state["password_ok"] = True
+        st.session_state["pw_input"] = ""   # don't keep the entered value around
+        st.session_state.pop("pw_wrong", None)
+    else:
+        st.session_state["pw_wrong"] = True
+
+
+def check_password() -> bool:
+    """Render password gate. Returns True only when the user has authenticated."""
+    if st.session_state.get("password_ok"):
+        return True
+    st.title("$300 Data Recovery — 1D1 Repair & Unlock")
+    st.caption("Internal tool — please enter the access password to continue.")
+    st.text_input(
+        "Password",
+        type="password",
+        key="pw_input",
+        on_change=_on_password_submit,
+        placeholder="Enter password and press Return",
+    )
+    if st.session_state.get("pw_wrong"):
+        st.error("Wrong password.")
+    return False
 
 
 # ============================================================
@@ -961,6 +1008,8 @@ def main():
         layout="wide",
         page_icon="🔧",
     )
+    if not check_password():
+        return
     init_state()
     slots = st.session_state.slots
 

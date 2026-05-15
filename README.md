@@ -17,7 +17,26 @@ Open <http://localhost:8501>.
 
 1. Push this repo to GitHub.
 2. Sign in at <https://share.streamlit.io> and point it at the repo.
-3. Main file: `streamlit_app.py`. No secrets required.
+3. Main file: `streamlit_app.py`.
+4. **Set the password** under *Settings → Secrets*:
+   ```toml
+   password = "11390"
+   ```
+   (See "Password" section below for the resolution order.)
+
+## Password
+
+The app is gated by a password screen. The expected value is resolved in this order:
+
+1. `st.secrets["password"]` — set in `.streamlit/secrets.toml` locally, or via the *Secrets* UI on Streamlit Community Cloud. **Recommended for any deployment** so the value is not in the public repo.
+2. `APP_PASSWORD` environment variable — useful for Docker / CI deployments.
+3. The hardcoded `APP_PASSWORD_DEFAULT` constant at the top of `streamlit_app.py` — currently `"11390"` for local development.
+
+To override locally, create `.streamlit/secrets.toml` (already excluded by `.gitignore`):
+
+```toml
+password = "your-new-password"
+```
 
 ## Usage
 
