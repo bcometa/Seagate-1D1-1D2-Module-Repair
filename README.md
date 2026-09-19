@@ -20,7 +20,7 @@ Open <http://localhost:8501>.
 3. Main file: `streamlit_app.py`.
 4. **Set the password** under *Settings → Secrets*:
    ```toml
-   password = "11390"
+   password = "***"
    ```
    (See "Password" section below for the resolution order.)
 
