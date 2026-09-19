@@ -28,7 +28,7 @@ import streamlit as st
 # Default password. For deployments on Streamlit Community Cloud or any
 # multi-user setting, set the password via st.secrets["password"] or the
 # APP_PASSWORD environment variable so the value is not committed to the repo.
-APP_PASSWORD_DEFAULT = "11390"
+APP_PASSWORD_DEFAULT = "***"
 
 
 def _expected_password() -> str:
