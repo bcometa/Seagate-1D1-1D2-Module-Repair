@@ -30,7 +30,7 @@ The app is gated by a password screen. The expected value is resolved in this or
 
 1. `st.secrets["password"]` — set in `.streamlit/secrets.toml` locally, or via the *Secrets* UI on Streamlit Community Cloud. **Recommended for any deployment** so the value is not in the public repo.
 2. `APP_PASSWORD` environment variable — useful for Docker / CI deployments.
-3. The hardcoded `APP_PASSWORD_DEFAULT` constant at the top of `streamlit_app.py` — currently `"11390"` for local development.
+3. The hardcoded `APP_PASSWORD_DEFAULT` constant at the top of `streamlit_app.py` — currently `"***"` for local development.
 
 To override locally, create `.streamlit/secrets.toml` (already excluded by `.gitignore`):
 
